@@ -1,0 +1,129 @@
+x-api-base: &api-base
+  image: assetflow-api:local
+  build:
+    context: ./api
+    dockerfile: Dockerfile
+  env_file:
+    - .env
+  environment:
+    APP_NAME: AssetFlow API
+    API_PREFIX: /api
+    DATABASE_URL: postgresql+psycopg://assetflow:assetflow@postgres:5432/assetflow
+    REDIS_URL: redis://redis:6379/0
+    CORS_ORIGINS: '["http://localhost:8080"]'
+    DEFAULT_BASE_CURRENCY: USD
+    DEFAULT_TIMEZONE: UTC
+    SECRET_KEY: assetflow-dev-secret-key-for-local-use
+    TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY:-}
+    COINGECKO_API_KEY: ${COINGECKO_API_KEY:-}
+  depends_on:
+    - postgres
+    - redis
+  networks:
+    - assetflow
+
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - web
+      - api
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - assetflow
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE: /api
+    environment:
+      VITE_API_BASE: /api
+    expose:
+      - "4173"
+    networks:
+      - assetflow
+
+  api:
+    image: assetflow-api:local
+    <<: *api-base
+    environment:
+      APP_NAME: AssetFlow API
+      API_PREFIX: /api
+      DATABASE_URL: postgresql+psycopg://assetflow:assetflow@postgres:5432/assetflow
+      REDIS_URL: redis://redis:6379/0
+      CREATE_TABLES_ON_STARTUP: "true"
+      CORS_ORIGINS: '["http://localhost:8080"]'
+      DEFAULT_BASE_CURRENCY: USD
+      DEFAULT_TIMEZONE: UTC
+      SECRET_KEY: assetflow-dev-secret-key-for-local-use
+    expose:
+      - "8000"
+
+  worker:
+    image: assetflow-api:local
+    command: celery -A app.tasks.celery_app.celery_app worker --loglevel=INFO
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://assetflow:assetflow@postgres:5432/assetflow
+      REDIS_URL: redis://redis:6379/0
+      CREATE_TABLES_ON_STARTUP: "false"
+      SECRET_KEY: assetflow-dev-secret-key-for-local-use
+      TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY:-}
+      COINGECKO_API_KEY: ${COINGECKO_API_KEY:-}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - assetflow
+
+  beat:
+    image: assetflow-api:local
+    command: celery -A app.tasks.celery_app.celery_app beat --loglevel=INFO
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://assetflow:assetflow@postgres:5432/assetflow
+      REDIS_URL: redis://redis:6379/0
+      CREATE_TABLES_ON_STARTUP: "false"
+      SECRET_KEY: assetflow-dev-secret-key-for-local-use
+      TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY:-}
+      COINGECKO_API_KEY: ${COINGECKO_API_KEY:-}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - assetflow
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: assetflow
+      POSTGRES_USER: assetflow
+      POSTGRES_PASSWORD: assetflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - "5432"
+    networks:
+      - assetflow
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    expose:
+      - "6379"
+    networks:
+      - assetflow
+
+networks:
+  assetflow:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,7715 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AssetFlow API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register",
+        "operationId": "register_api_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_auth_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh",
+        "operationId": "refresh_api_auth_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Me",
+        "operationId": "get_me_api_users_me_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Patch Me",
+        "operationId": "patch_me_api_users_me_patch",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/merchant-rules": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "List Merchant Rules",
+        "operationId": "list_merchant_rules_api_users_me_merchant_rules_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MerchantRuleRead"
+                  },
+                  "title": "Response List Merchant Rules Api Users Me Merchant Rules Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create Merchant Rule",
+        "operationId": "create_merchant_rule_api_users_me_merchant_rules_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantRuleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantRuleRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/merchant-rules/{rule_id}": {
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Patch Merchant Rule",
+        "operationId": "patch_merchant_rule_api_users_me_merchant_rules__rule_id__patch",
+        "parameters": [
+          {
+            "name": "rule_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rule Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantRuleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantRuleRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete Merchant Rule",
+        "operationId": "delete_merchant_rule_api_users_me_merchant_rules__rule_id__delete",
+        "parameters": [
+          {
+            "name": "rule_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rule Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/audit": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "List Audit Entries",
+        "operationId": "list_audit_entries_api_users_me_audit_get",
+        "parameters": [
+          {
+            "name": "entity_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Entity Type"
+            }
+          },
+          {
+            "name": "entity_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Entity Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditEntry"
+                  },
+                  "title": "Response List Audit Entries Api Users Me Audit Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts": {
+      "get": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "List Accounts",
+        "operationId": "list_accounts_api_accounts_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountSummary"
+                  },
+                  "title": "Response List Accounts Api Accounts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Add Account",
+        "operationId": "add_account_api_accounts_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/{account_id}": {
+      "patch": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Patch Account",
+        "operationId": "patch_account_api_accounts__account_id__patch",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Delete Account",
+        "operationId": "delete_account_api_accounts__account_id__delete",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "List Categories",
+        "operationId": "list_categories_api_categories_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response List Categories Api Categories Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Add Category",
+        "operationId": "add_category_api_categories_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Category Api Categories Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tags": {
+      "get": {
+        "tags": [
+          "tags"
+        ],
+        "summary": "List Tags",
+        "operationId": "list_tags_api_tags_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response List Tags Api Tags Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tags"
+        ],
+        "summary": "Add Tag",
+        "operationId": "add_tag_api_tags_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Tag Api Tags Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "List Transactions",
+        "operationId": "list_transactions_api_transactions_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionRead"
+                  },
+                  "title": "Response List Transactions Api Transactions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Add Transaction",
+        "operationId": "add_transaction_api_transactions_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions/{transaction_id}": {
+      "patch": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Patch Transaction",
+        "operationId": "patch_transaction_api_transactions__transaction_id__patch",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Transaction Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Remove Transaction",
+        "operationId": "remove_transaction_api_transactions__transaction_id__delete",
+        "parameters": [
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Transaction Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transfers": {
+      "post": {
+        "tags": [
+          "transfers"
+        ],
+        "summary": "Add Transfer",
+        "operationId": "add_transfer_api_transfers_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionRead"
+                  },
+                  "title": "Response Add Transfer Api Transfers Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/budgets": {
+      "get": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "List Budgets",
+        "operationId": "list_budgets_api_budgets_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BudgetStatus"
+                  },
+                  "title": "Response List Budgets Api Budgets Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Add Budget",
+        "operationId": "add_budget_api_budgets_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BudgetCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Budget Api Budgets Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goals": {
+      "get": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "List Goals",
+        "operationId": "list_goals_api_goals_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoalForecast"
+                  },
+                  "title": "Response List Goals Api Goals Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Add Goal",
+        "operationId": "add_goal_api_goals_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Goal Api Goals Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goals/{goal_id}": {
+      "patch": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Patch Goal",
+        "operationId": "patch_goal_api_goals__goal_id__patch",
+        "parameters": [
+          {
+            "name": "goal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Goal Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalForecast"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Remove Goal",
+        "operationId": "remove_goal_api_goals__goal_id__delete",
+        "parameters": [
+          {
+            "name": "goal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Goal Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goals/{goal_id}/contributions": {
+      "post": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Add Goal Contribution",
+        "operationId": "add_goal_contribution_api_goals__goal_id__contributions_post",
+        "parameters": [
+          {
+            "name": "goal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Goal Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalContributionCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalForecast"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recurring": {
+      "get": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "List Recurring",
+        "operationId": "list_recurring_api_recurring_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecurringSchedule"
+                  },
+                  "title": "Response List Recurring Api Recurring Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Add Recurring",
+        "operationId": "add_recurring_api_recurring_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecurringCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Add Recurring Api Recurring Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recurring/{recurring_id}": {
+      "patch": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Patch Recurring",
+        "operationId": "patch_recurring_api_recurring__recurring_id__patch",
+        "parameters": [
+          {
+            "name": "recurring_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Recurring Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecurringUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecurringSchedule"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "planning"
+        ],
+        "summary": "Remove Recurring",
+        "operationId": "remove_recurring_api_recurring__recurring_id__delete",
+        "parameters": [
+          {
+            "name": "recurring_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Recurring Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets": {
+      "get": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Get Positions",
+        "operationId": "get_positions_api_assets_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetPosition"
+                  },
+                  "title": "Response Get Positions Api Assets Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Add Asset",
+        "operationId": "add_asset_api_assets_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetPosition"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets/{asset_id}": {
+      "patch": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Patch Asset",
+        "operationId": "patch_asset_api_assets__asset_id__patch",
+        "parameters": [
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetPosition"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Delete Asset",
+        "operationId": "delete_asset_api_assets__asset_id__delete",
+        "parameters": [
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets/{asset_id}/price": {
+      "post": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Patch Asset Price",
+        "operationId": "patch_asset_price_api_assets__asset_id__price_post",
+        "parameters": [
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetPriceUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetPosition"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets/{asset_id}/price/sync": {
+      "post": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Sync Asset Price",
+        "operationId": "sync_asset_price_api_assets__asset_id__price_sync_post",
+        "parameters": [
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetPosition"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets/{asset_id}/chart": {
+      "get": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Asset Chart",
+        "operationId": "asset_chart_api_assets__asset_id__chart_get",
+        "parameters": [
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "range_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "default": 30,
+              "title": "Range Days"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetChartResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assets/providers/search": {
+      "get": {
+        "tags": [
+          "assets"
+        ],
+        "summary": "Asset Provider Search",
+        "operationId": "asset_provider_search_api_assets_providers_search_get",
+        "parameters": [
+          {
+            "name": "asset_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AssetType"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "title": "Q"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetInstrumentOption"
+                  },
+                  "title": "Response Asset Provider Search Api Assets Providers Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deposits": {
+      "get": {
+        "tags": [
+          "deposits"
+        ],
+        "summary": "Get Deposits",
+        "operationId": "get_deposits_api_deposits_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepositSummary"
+                  },
+                  "title": "Response Get Deposits Api Deposits Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "deposits"
+        ],
+        "summary": "Add Deposit",
+        "operationId": "add_deposit_api_deposits_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DepositCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DepositSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/deposits/{deposit_id}": {
+      "patch": {
+        "tags": [
+          "deposits"
+        ],
+        "summary": "Patch Deposit",
+        "operationId": "patch_deposit_api_deposits__deposit_id__patch",
+        "parameters": [
+          {
+            "name": "deposit_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Deposit Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DepositUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DepositSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "deposits"
+        ],
+        "summary": "Delete Deposit",
+        "operationId": "delete_deposit_api_deposits__deposit_id__delete",
+        "parameters": [
+          {
+            "name": "deposit_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Deposit Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/overview": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Overview",
+        "operationId": "overview_api_reports_overview_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverviewReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/cash-flow": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Cash Flow",
+        "operationId": "cash_flow_api_reports_cash_flow_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CashFlowPoint"
+                  },
+                  "title": "Response Cash Flow Api Reports Cash Flow Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/categories": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Category Dynamics",
+        "operationId": "category_dynamics_api_reports_categories_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryDynamic"
+                  },
+                  "title": "Response Category Dynamics Api Reports Categories Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/merchants": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Merchant Report",
+        "operationId": "merchant_report_api_reports_merchants_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/net-worth": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Net Worth Report",
+        "operationId": "net_worth_report_api_reports_net_worth_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NetWorthPoint"
+                  },
+                  "title": "Response Net Worth Report Api Reports Net Worth Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/allocation": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Allocation Report",
+        "operationId": "allocation_report_api_reports_allocation_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllocationReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/export/transactions.csv": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Export Transactions Csv",
+        "operationId": "export_transactions_csv_api_reports_export_transactions_csv_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scenarios/project": {
+      "post": {
+        "tags": [
+          "scenarios"
+        ],
+        "summary": "Project",
+        "operationId": "project_api_scenarios_project_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScenarioResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/imports": {
+      "get": {
+        "tags": [
+          "imports"
+        ],
+        "summary": "List Imports",
+        "operationId": "list_imports_api_imports_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportJobSummary"
+                  },
+                  "title": "Response List Imports Api Imports Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/imports/{job_id}": {
+      "get": {
+        "tags": [
+          "imports"
+        ],
+        "summary": "Get Import",
+        "operationId": "get_import_api_imports__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportJobDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/imports/preview": {
+      "post": {
+        "tags": [
+          "imports"
+        ],
+        "summary": "Preview Import",
+        "operationId": "preview_import_api_imports_preview_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportPreviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportPreviewResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/imports/{job_id}/apply": {
+      "post": {
+        "tags": [
+          "imports"
+        ],
+        "summary": "Apply Import",
+        "operationId": "apply_import_api_imports__job_id__apply_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportApplyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportApplyResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "List Notifications",
+        "operationId": "list_notifications_api_notifications_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationRead"
+                  },
+                  "title": "Response List Notifications Api Notifications Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{notification_id}/read": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Mark Read",
+        "operationId": "mark_read_api_notifications__notification_id__read_post",
+        "parameters": [
+          {
+            "name": "notification_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Notification Id"
+            }
+          },
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/health": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_admin_health_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/outbox": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Outbox",
+        "operationId": "outbox_api_admin_outbox_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutboxEventRead"
+                  },
+                  "title": "Response Outbox Api Admin Outbox Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/outbox/process": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Process Outbox",
+        "operationId": "process_outbox_api_admin_outbox_process_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminActionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/outbox/retry-failed": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Retry Failed Outbox",
+        "operationId": "retry_failed_outbox_api_admin_outbox_retry_failed_post",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminActionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/jobs": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Job Status",
+        "operationId": "job_status_api_admin_jobs_get",
+        "parameters": [
+          {
+            "name": "assetflow_access",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assetflow Access"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          },
+          "currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "opening_balance": {
+            "type": "number",
+            "title": "Opening Balance",
+            "default": 0
+          },
+          "include_in_net_worth": {
+            "type": "boolean",
+            "title": "Include In Net Worth",
+            "default": true
+          },
+          "include_in_liquid_balance": {
+            "type": "boolean",
+            "title": "Include In Liquid Balance",
+            "default": true
+          },
+          "credit_limit": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit"
+          },
+          "interest_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interest Rate"
+          },
+          "billing_day": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Day"
+          },
+          "grace_period_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grace Period Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "currency"
+        ],
+        "title": "AccountCreate"
+      },
+      "AccountSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "current_balance": {
+            "type": "number",
+            "title": "Current Balance"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "include_in_net_worth": {
+            "type": "boolean",
+            "title": "Include In Net Worth"
+          },
+          "include_in_liquid_balance": {
+            "type": "boolean",
+            "title": "Include In Liquid Balance"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "currency",
+          "current_balance",
+          "include_in_net_worth",
+          "include_in_liquid_balance"
+        ],
+        "title": "AccountSummary"
+      },
+      "AccountType": {
+        "type": "string",
+        "enum": [
+          "cash",
+          "debit_card",
+          "credit_card",
+          "savings",
+          "brokerage",
+          "crypto_wallet",
+          "loan",
+          "reserve",
+          "fx"
+        ],
+        "title": "AccountType"
+      },
+      "AccountUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          },
+          "currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "include_in_net_worth": {
+            "type": "boolean",
+            "title": "Include In Net Worth",
+            "default": true
+          },
+          "include_in_liquid_balance": {
+            "type": "boolean",
+            "title": "Include In Liquid Balance",
+            "default": true
+          },
+          "credit_limit": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit"
+          },
+          "interest_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interest Rate"
+          },
+          "billing_day": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billing Day"
+          },
+          "grace_period_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grace Period Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "currency"
+        ],
+        "title": "AccountUpdate"
+      },
+      "AdminActionResult": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "processed_count": {
+            "type": "integer",
+            "title": "Processed Count",
+            "default": 0
+          },
+          "retried_count": {
+            "type": "integer",
+            "title": "Retried Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "AdminActionResult"
+      },
+      "AllocationPoint": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          },
+          "allocation_pct": {
+            "type": "number",
+            "title": "Allocation Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "value",
+          "allocation_pct"
+        ],
+        "title": "AllocationPoint"
+      },
+      "AllocationReport": {
+        "properties": {
+          "allocations": {
+            "items": {
+              "$ref": "#/components/schemas/AllocationPoint"
+            },
+            "type": "array",
+            "title": "Allocations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "allocations"
+        ],
+        "title": "AllocationReport"
+      },
+      "AssetChartPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "price_in_base": {
+            "type": "number",
+            "title": "Price In Base"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "price",
+          "price_in_base"
+        ],
+        "title": "AssetChartPoint"
+      },
+      "AssetChartResponse": {
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "title": "Asset Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "range_days": {
+            "type": "integer",
+            "title": "Range Days"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/AssetChartPoint"
+            },
+            "type": "array",
+            "title": "Points"
+          }
+        },
+        "type": "object",
+        "required": [
+          "asset_id",
+          "name",
+          "range_days",
+          "points"
+        ],
+        "title": "AssetChartResponse"
+      },
+      "AssetCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbol"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity",
+            "default": 0
+          },
+          "average_buy_price": {
+            "type": "number",
+            "title": "Average Buy Price",
+            "default": 0
+          },
+          "average_buy_price_in_base": {
+            "type": "number",
+            "title": "Average Buy Price In Base",
+            "default": 0
+          },
+          "current_price": {
+            "type": "number",
+            "title": "Current Price",
+            "default": 0
+          },
+          "current_price_in_base": {
+            "type": "number",
+            "title": "Current Price In Base",
+            "default": 0
+          },
+          "invested_amount_in_base": {
+            "type": "number",
+            "title": "Invested Amount In Base",
+            "default": 0
+          },
+          "risk_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Label"
+          },
+          "liquidity_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liquidity Label"
+          },
+          "tracking_enabled": {
+            "type": "boolean",
+            "title": "Tracking Enabled",
+            "default": false
+          },
+          "tracking_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Provider"
+          },
+          "tracking_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking External Id"
+          },
+          "tracking_symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Symbol"
+          },
+          "rental_enabled": {
+            "type": "boolean",
+            "title": "Rental Enabled",
+            "default": false
+          },
+          "rental_income_monthly": {
+            "type": "number",
+            "title": "Rental Income Monthly",
+            "default": 0
+          },
+          "rental_payment_frequency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Frequency"
+          },
+          "rental_payment_day": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Day"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "currency"
+        ],
+        "title": "AssetCreate"
+      },
+      "AssetInstrumentOption": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "asset_type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "external_id": {
+            "type": "string",
+            "title": "External Id"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "asset_type",
+          "external_id",
+          "symbol",
+          "name"
+        ],
+        "title": "AssetInstrumentOption"
+      },
+      "AssetPosition": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbol"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity"
+          },
+          "current_price": {
+            "type": "number",
+            "title": "Current Price"
+          },
+          "current_price_in_base": {
+            "type": "number",
+            "title": "Current Price In Base"
+          },
+          "current_value_in_base": {
+            "type": "number",
+            "title": "Current Value In Base"
+          },
+          "invested_amount_in_base": {
+            "type": "number",
+            "title": "Invested Amount In Base"
+          },
+          "unrealized_pnl": {
+            "type": "number",
+            "title": "Unrealized Pnl"
+          },
+          "allocation_pct": {
+            "type": "number",
+            "title": "Allocation Pct"
+          },
+          "tracking_enabled": {
+            "type": "boolean",
+            "title": "Tracking Enabled",
+            "default": false
+          },
+          "tracking_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Provider"
+          },
+          "tracking_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking External Id"
+          },
+          "tracking_symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Symbol"
+          },
+          "linked_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Account Id"
+          },
+          "linked_account_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Account Name"
+          },
+          "valuation_source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valuation Source"
+          },
+          "rental_enabled": {
+            "type": "boolean",
+            "title": "Rental Enabled",
+            "default": false
+          },
+          "rental_income_monthly": {
+            "type": "number",
+            "title": "Rental Income Monthly",
+            "default": 0
+          },
+          "rental_payment_frequency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Frequency"
+          },
+          "rental_payment_day": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Day"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "symbol",
+          "type",
+          "currency",
+          "quantity",
+          "current_price",
+          "current_price_in_base",
+          "current_value_in_base",
+          "invested_amount_in_base",
+          "unrealized_pnl",
+          "allocation_pct"
+        ],
+        "title": "AssetPosition"
+      },
+      "AssetPriceUpdate": {
+        "properties": {
+          "priced_at": {
+            "type": "string",
+            "format": "date",
+            "title": "Priced At"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "price_in_base": {
+            "type": "number",
+            "title": "Price In Base"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "manual"
+          }
+        },
+        "type": "object",
+        "required": [
+          "priced_at",
+          "price",
+          "price_in_base"
+        ],
+        "title": "AssetPriceUpdate"
+      },
+      "AssetType": {
+        "type": "string",
+        "enum": [
+          "cash",
+          "deposit",
+          "stock",
+          "etf",
+          "bond",
+          "crypto",
+          "metal",
+          "real_estate",
+          "custom"
+        ],
+        "title": "AssetType"
+      },
+      "AssetUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AssetType"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symbol"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity",
+            "default": 0
+          },
+          "average_buy_price": {
+            "type": "number",
+            "title": "Average Buy Price",
+            "default": 0
+          },
+          "average_buy_price_in_base": {
+            "type": "number",
+            "title": "Average Buy Price In Base",
+            "default": 0
+          },
+          "current_price": {
+            "type": "number",
+            "title": "Current Price",
+            "default": 0
+          },
+          "current_price_in_base": {
+            "type": "number",
+            "title": "Current Price In Base",
+            "default": 0
+          },
+          "invested_amount_in_base": {
+            "type": "number",
+            "title": "Invested Amount In Base",
+            "default": 0
+          },
+          "risk_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Label"
+          },
+          "liquidity_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liquidity Label"
+          },
+          "tracking_enabled": {
+            "type": "boolean",
+            "title": "Tracking Enabled",
+            "default": false
+          },
+          "tracking_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Provider"
+          },
+          "tracking_external_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking External Id"
+          },
+          "tracking_symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tracking Symbol"
+          },
+          "rental_enabled": {
+            "type": "boolean",
+            "title": "Rental Enabled",
+            "default": false
+          },
+          "rental_income_monthly": {
+            "type": "number",
+            "title": "Rental Income Monthly",
+            "default": 0
+          },
+          "rental_payment_frequency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Frequency"
+          },
+          "rental_payment_day": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rental Payment Day"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "currency"
+        ],
+        "title": "AssetUpdate"
+      },
+      "AuditEntry": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Occurred At"
+          },
+          "actor_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor User Id"
+          },
+          "before_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Before Json"
+          },
+          "after_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "After Json"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_type",
+          "entity_id",
+          "action",
+          "occurred_at"
+        ],
+        "title": "AuditEntry"
+      },
+      "AuthResponse": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user"
+        ],
+        "title": "AuthResponse"
+      },
+      "BudgetCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "period_type": {
+            "$ref": "#/components/schemas/BudgetPeriodType",
+            "default": "monthly"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Start Date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "title": "End Date"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "fixed_only": {
+            "type": "boolean",
+            "title": "Fixed Only",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "amount",
+          "currency",
+          "amount_in_base_currency",
+          "start_date",
+          "end_date"
+        ],
+        "title": "BudgetCreate"
+      },
+      "BudgetPeriodType": {
+        "type": "string",
+        "enum": [
+          "monthly",
+          "weekly",
+          "custom",
+          "rolling"
+        ],
+        "title": "BudgetPeriodType"
+      },
+      "BudgetStatus": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "spent": {
+            "type": "number",
+            "title": "Spent"
+          },
+          "forecast_spent": {
+            "type": "number",
+            "title": "Forecast Spent"
+          },
+          "utilization_pct": {
+            "type": "number",
+            "title": "Utilization Pct"
+          },
+          "period_start": {
+            "type": "string",
+            "format": "date",
+            "title": "Period Start"
+          },
+          "period_end": {
+            "type": "string",
+            "format": "date",
+            "title": "Period End"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "amount",
+          "spent",
+          "forecast_spent",
+          "utilization_pct",
+          "period_start",
+          "period_end"
+        ],
+        "title": "BudgetStatus"
+      },
+      "CashFlowPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "income": {
+            "type": "number",
+            "title": "Income"
+          },
+          "expenses": {
+            "type": "number",
+            "title": "Expenses"
+          },
+          "net": {
+            "type": "number",
+            "title": "Net"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "income",
+          "expenses",
+          "net"
+        ],
+        "title": "CashFlowPoint"
+      },
+      "CategoryDynamic": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "current_amount": {
+            "type": "number",
+            "title": "Current Amount"
+          },
+          "previous_amount": {
+            "type": "number",
+            "title": "Previous Amount"
+          },
+          "growth_pct": {
+            "type": "number",
+            "title": "Growth Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "current_amount",
+          "previous_amount",
+          "growth_pct"
+        ],
+        "title": "CategoryDynamic"
+      },
+      "DepositCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "principal_amount": {
+            "type": "number",
+            "title": "Principal Amount"
+          },
+          "current_balance": {
+            "type": "number",
+            "title": "Current Balance"
+          },
+          "annual_interest_rate": {
+            "type": "number",
+            "title": "Annual Interest Rate"
+          },
+          "payout_frequency": {
+            "type": "string",
+            "title": "Payout Frequency",
+            "default": "monthly"
+          },
+          "capitalization_enabled": {
+            "type": "boolean",
+            "title": "Capitalization Enabled",
+            "default": true
+          },
+          "opened_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Opened On"
+          },
+          "maturity_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maturity Date"
+          },
+          "next_payout_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Payout Date"
+          },
+          "early_withdrawal_terms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Early Withdrawal Terms"
+          },
+          "funding_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Account Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "currency",
+          "principal_amount",
+          "current_balance",
+          "annual_interest_rate",
+          "opened_on"
+        ],
+        "title": "DepositCreate"
+      },
+      "DepositSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "account_name": {
+            "type": "string",
+            "title": "Account Name"
+          },
+          "funding_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Account Id"
+          },
+          "funding_account_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Account Name"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "principal_amount": {
+            "type": "number",
+            "title": "Principal Amount"
+          },
+          "current_balance": {
+            "type": "number",
+            "title": "Current Balance"
+          },
+          "annual_interest_rate": {
+            "type": "number",
+            "title": "Annual Interest Rate"
+          },
+          "payout_frequency": {
+            "type": "string",
+            "title": "Payout Frequency"
+          },
+          "capitalization_enabled": {
+            "type": "boolean",
+            "title": "Capitalization Enabled"
+          },
+          "opened_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Opened On"
+          },
+          "maturity_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maturity Date"
+          },
+          "next_payout_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Payout Date"
+          },
+          "early_withdrawal_terms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Early Withdrawal Terms"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "account_name",
+          "name",
+          "currency",
+          "principal_amount",
+          "current_balance",
+          "annual_interest_rate",
+          "payout_frequency",
+          "capitalization_enabled",
+          "opened_on",
+          "status"
+        ],
+        "title": "DepositSummary"
+      },
+      "DepositUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "institution_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution Name"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "principal_amount": {
+            "type": "number",
+            "title": "Principal Amount"
+          },
+          "current_balance": {
+            "type": "number",
+            "title": "Current Balance"
+          },
+          "annual_interest_rate": {
+            "type": "number",
+            "title": "Annual Interest Rate"
+          },
+          "payout_frequency": {
+            "type": "string",
+            "title": "Payout Frequency",
+            "default": "monthly"
+          },
+          "capitalization_enabled": {
+            "type": "boolean",
+            "title": "Capitalization Enabled",
+            "default": true
+          },
+          "opened_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Opened On"
+          },
+          "maturity_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maturity Date"
+          },
+          "next_payout_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Payout Date"
+          },
+          "early_withdrawal_terms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Early Withdrawal Terms"
+          },
+          "funding_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Account Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "open"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "currency",
+          "principal_amount",
+          "current_balance",
+          "annual_interest_rate",
+          "opened_on"
+        ],
+        "title": "DepositUpdate"
+      },
+      "GoalContributionCreate": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "contributed_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Contributed On"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction",
+            "default": "fund"
+          },
+          "transaction_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transaction Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount",
+          "amount_in_base_currency",
+          "contributed_on",
+          "account_id"
+        ],
+        "title": "GoalContributionCreate"
+      },
+      "GoalCreate": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "target_amount": {
+            "type": "number",
+            "title": "Target Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "target_amount_in_base_currency": {
+            "type": "number",
+            "title": "Target Amount In Base Currency"
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "linked_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Account Id"
+          },
+          "linked_asset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Asset Id"
+          },
+          "monthly_contribution_target": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Contribution Target"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "default": 1
+          },
+          "auto_funding_enabled": {
+            "type": "boolean",
+            "title": "Auto Funding Enabled",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "target_amount",
+          "currency",
+          "target_amount_in_base_currency"
+        ],
+        "title": "GoalCreate"
+      },
+      "GoalForecast": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "$ref": "#/components/schemas/GoalStatus"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "linked_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Account Id"
+          },
+          "linked_asset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Asset Id"
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "default": 1
+          },
+          "monthly_contribution_target": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Contribution Target"
+          },
+          "auto_funding_enabled": {
+            "type": "boolean",
+            "title": "Auto Funding Enabled",
+            "default": false
+          },
+          "progress_pct": {
+            "type": "number",
+            "title": "Progress Pct"
+          },
+          "saved_amount": {
+            "type": "number",
+            "title": "Saved Amount"
+          },
+          "target_amount": {
+            "type": "number",
+            "title": "Target Amount"
+          },
+          "remaining_amount": {
+            "type": "number",
+            "title": "Remaining Amount"
+          },
+          "required_monthly_contribution": {
+            "type": "number",
+            "title": "Required Monthly Contribution"
+          },
+          "projected_completion_months": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Projected Completion Months"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "status",
+          "currency",
+          "progress_pct",
+          "saved_amount",
+          "target_amount",
+          "remaining_amount",
+          "required_monthly_contribution"
+        ],
+        "title": "GoalForecast"
+      },
+      "GoalStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "completed",
+          "paused",
+          "archived"
+        ],
+        "title": "GoalStatus"
+      },
+      "GoalUpdate": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "target_amount": {
+            "type": "number",
+            "title": "Target Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "target_amount_in_base_currency": {
+            "type": "number",
+            "title": "Target Amount In Base Currency"
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "linked_account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Account Id"
+          },
+          "linked_asset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Asset Id"
+          },
+          "monthly_contribution_target": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Contribution Target"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "default": 1
+          },
+          "auto_funding_enabled": {
+            "type": "boolean",
+            "title": "Auto Funding Enabled",
+            "default": false
+          },
+          "status": {
+            "$ref": "#/components/schemas/GoalStatus",
+            "default": "active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "target_amount",
+          "currency",
+          "target_amount_in_base_currency"
+        ],
+        "title": "GoalUpdate"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "timestamp"
+        ],
+        "title": "HealthResponse"
+      },
+      "ImportApplyRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType",
+            "default": "expense"
+          },
+          "source_type": {
+            "$ref": "#/components/schemas/SourceType",
+            "default": "imported"
+          },
+          "default_currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Currency"
+          },
+          "row_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Row Ids"
+          },
+          "force_duplicate_row_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Force Duplicate Row Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id"
+        ],
+        "title": "ImportApplyRequest"
+      },
+      "ImportApplyResult": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "imported_count": {
+            "type": "integer",
+            "title": "Imported Count"
+          },
+          "skipped_count": {
+            "type": "integer",
+            "title": "Skipped Count"
+          },
+          "duplicate_count": {
+            "type": "integer",
+            "title": "Duplicate Count"
+          },
+          "error_count": {
+            "type": "integer",
+            "title": "Error Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "imported_count",
+          "skipped_count",
+          "duplicate_count",
+          "error_count"
+        ],
+        "title": "ImportApplyResult"
+      },
+      "ImportConflictRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "import_row_id": {
+            "type": "string",
+            "title": "Import Row Id"
+          },
+          "conflict_type": {
+            "type": "string",
+            "title": "Conflict Type"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "import_row_id",
+          "conflict_type"
+        ],
+        "title": "ImportConflictRead"
+      },
+      "ImportJobDetail": {
+        "properties": {
+          "job": {
+            "$ref": "#/components/schemas/ImportJobSummary"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ImportRowRead"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/ImportConflictRead"
+            },
+            "type": "array",
+            "title": "Conflicts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job",
+          "rows",
+          "conflicts"
+        ],
+        "title": "ImportJobDetail"
+      },
+      "ImportJobSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "filename",
+          "status"
+        ],
+        "title": "ImportJobSummary"
+      },
+      "ImportPreviewRequest": {
+        "properties": {
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ImportPreviewRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "filename",
+          "rows"
+        ],
+        "title": "ImportPreviewRequest"
+      },
+      "ImportPreviewResult": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "duplicates": {
+            "type": "integer",
+            "title": "Duplicates"
+          },
+          "accepted": {
+            "type": "integer",
+            "title": "Accepted"
+          },
+          "statuses": {
+            "items": {
+              "$ref": "#/components/schemas/ImportRowStatus"
+            },
+            "type": "array",
+            "title": "Statuses"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "duplicates",
+          "accepted",
+          "statuses"
+        ],
+        "title": "ImportPreviewResult"
+      },
+      "ImportPreviewRow": {
+        "properties": {
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount",
+          "currency",
+          "transaction_date"
+        ],
+        "title": "ImportPreviewRow"
+      },
+      "ImportRowRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "row_number": {
+            "type": "integer",
+            "title": "Row Number"
+          },
+          "raw_payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Raw Payload"
+          },
+          "normalized_payload": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Normalized Payload"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ImportRowStatus"
+          },
+          "duplicate_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duplicate Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "row_number",
+          "raw_payload",
+          "status"
+        ],
+        "title": "ImportRowRead"
+      },
+      "ImportRowStatus": {
+        "type": "string",
+        "enum": [
+          "new",
+          "matched",
+          "duplicate",
+          "error",
+          "accepted"
+        ],
+        "title": "ImportRowStatus"
+      },
+      "InsightCard": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/InsightSeverity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "body",
+          "severity"
+        ],
+        "title": "InsightCard"
+      },
+      "InsightSeverity": {
+        "type": "string",
+        "enum": [
+          "info",
+          "warning",
+          "critical"
+        ],
+        "title": "InsightSeverity"
+      },
+      "JobStatus": {
+        "properties": {
+          "recurring_processed": {
+            "type": "integer",
+            "title": "Recurring Processed"
+          },
+          "notifications_queued": {
+            "type": "integer",
+            "title": "Notifications Queued"
+          },
+          "pending_outbox": {
+            "type": "integer",
+            "title": "Pending Outbox",
+            "default": 0
+          },
+          "processed_outbox": {
+            "type": "integer",
+            "title": "Processed Outbox",
+            "default": 0
+          },
+          "failed_outbox": {
+            "type": "integer",
+            "title": "Failed Outbox",
+            "default": 0
+          },
+          "last_outbox_run_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Outbox Run At"
+          },
+          "snapshot_rebuild_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Snapshot Rebuild At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recurring_processed",
+          "notifications_queued"
+        ],
+        "title": "JobStatus"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "MerchantReport": {
+        "properties": {
+          "merchants": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantSpend"
+            },
+            "type": "array",
+            "title": "Merchants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchants"
+        ],
+        "title": "MerchantReport"
+      },
+      "MerchantRuleCreate": {
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 2,
+            "title": "Pattern"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "tag_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tag Names"
+          },
+          "priority": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 1.0,
+            "title": "Priority",
+            "default": 100
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "pattern"
+        ],
+        "title": "MerchantRuleCreate"
+      },
+      "MerchantRuleRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "pattern": {
+            "type": "string",
+            "title": "Pattern"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "tag_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tag Names"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "pattern",
+          "priority",
+          "is_active"
+        ],
+        "title": "MerchantRuleRead"
+      },
+      "MerchantRuleUpdate": {
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 2,
+            "title": "Pattern"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "tag_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tag Names"
+          },
+          "priority": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 1.0,
+            "title": "Priority",
+            "default": 100
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "pattern"
+        ],
+        "title": "MerchantRuleUpdate"
+      },
+      "MerchantSpend": {
+        "properties": {
+          "merchant_name": {
+            "type": "string",
+            "title": "Merchant Name"
+          },
+          "current_amount": {
+            "type": "number",
+            "title": "Current Amount"
+          },
+          "previous_amount": {
+            "type": "number",
+            "title": "Previous Amount"
+          },
+          "growth_pct": {
+            "type": "number",
+            "title": "Growth Pct"
+          },
+          "transaction_count": {
+            "type": "integer",
+            "title": "Transaction Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant_name",
+          "current_amount",
+          "previous_amount",
+          "growth_pct",
+          "transaction_count"
+        ],
+        "title": "MerchantSpend"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "MessageResponse"
+      },
+      "NetWorthPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "net_worth": {
+            "type": "number",
+            "title": "Net Worth"
+          },
+          "assets": {
+            "type": "number",
+            "title": "Assets"
+          },
+          "liabilities": {
+            "type": "number",
+            "title": "Liabilities"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "net_worth",
+          "assets",
+          "liabilities"
+        ],
+        "title": "NetWorthPoint"
+      },
+      "NotificationRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/NotificationType"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/InsightSeverity"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "is_read": {
+            "type": "boolean",
+            "title": "Is Read"
+          },
+          "scheduled_for": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scheduled For"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "severity",
+          "title",
+          "body",
+          "is_read"
+        ],
+        "title": "NotificationRead"
+      },
+      "NotificationType": {
+        "type": "string",
+        "enum": [
+          "budget_threshold",
+          "recurring_upcoming",
+          "insufficient_funds",
+          "anomaly",
+          "goal_lagging",
+          "import_pending",
+          "asset_update",
+          "digest"
+        ],
+        "title": "NotificationType"
+      },
+      "OutboxEventRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "attempts": {
+            "type": "integer",
+            "title": "Attempts"
+          },
+          "last_attempt_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Attempt At"
+          },
+          "last_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error"
+          },
+          "processed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processed At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "event_type",
+          "entity_type",
+          "entity_id",
+          "attempts"
+        ],
+        "title": "OutboxEventRead"
+      },
+      "OverviewReport": {
+        "properties": {
+          "liquid_balance": {
+            "type": "number",
+            "title": "Liquid Balance"
+          },
+          "total_assets": {
+            "type": "number",
+            "title": "Total Assets"
+          },
+          "total_liabilities": {
+            "type": "number",
+            "title": "Total Liabilities"
+          },
+          "net_worth": {
+            "type": "number",
+            "title": "Net Worth"
+          },
+          "monthly_income": {
+            "type": "number",
+            "title": "Monthly Income"
+          },
+          "monthly_expenses": {
+            "type": "number",
+            "title": "Monthly Expenses"
+          },
+          "savings_rate": {
+            "type": "number",
+            "title": "Savings Rate"
+          },
+          "burn_rate": {
+            "type": "number",
+            "title": "Burn Rate"
+          },
+          "runway_months": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runway Months"
+          },
+          "emergency_fund_months": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Emergency Fund Months"
+          },
+          "recurring_burden_pct": {
+            "type": "number",
+            "title": "Recurring Burden Pct"
+          },
+          "top_categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryDynamic"
+            },
+            "type": "array",
+            "title": "Top Categories"
+          },
+          "insights": {
+            "items": {
+              "$ref": "#/components/schemas/InsightCard"
+            },
+            "type": "array",
+            "title": "Insights"
+          },
+          "net_worth_timeline": {
+            "items": {
+              "$ref": "#/components/schemas/NetWorthPoint"
+            },
+            "type": "array",
+            "title": "Net Worth Timeline"
+          }
+        },
+        "type": "object",
+        "required": [
+          "liquid_balance",
+          "total_assets",
+          "total_liabilities",
+          "net_worth",
+          "monthly_income",
+          "monthly_expenses",
+          "savings_rate",
+          "burn_rate",
+          "runway_months",
+          "emergency_fund_months",
+          "recurring_burden_pct",
+          "top_categories",
+          "insights",
+          "net_worth_timeline"
+        ],
+        "title": "OverviewReport"
+      },
+      "RecurringCreate": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/RecurringFrequency"
+          },
+          "interval_count": {
+            "type": "integer",
+            "title": "Interval Count",
+            "default": 1
+          },
+          "next_due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Next Due Date"
+          },
+          "reminder_days_before": {
+            "type": "integer",
+            "title": "Reminder Days Before",
+            "default": 3
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "fixed_or_variable": {
+            "type": "string",
+            "title": "Fixed Or Variable",
+            "default": "fixed"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "name",
+          "amount",
+          "currency",
+          "amount_in_base_currency",
+          "frequency",
+          "next_due_date"
+        ],
+        "title": "RecurringCreate"
+      },
+      "RecurringFrequency": {
+        "type": "string",
+        "enum": [
+          "weekly",
+          "monthly",
+          "yearly"
+        ],
+        "title": "RecurringFrequency"
+      },
+      "RecurringSchedule": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "next_due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Next Due Date"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/RecurringFrequency"
+          },
+          "reminder_days_before": {
+            "type": "integer",
+            "title": "Reminder Days Before"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "fixed_or_variable": {
+            "type": "string",
+            "title": "Fixed Or Variable"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "name",
+          "amount",
+          "currency",
+          "amount_in_base_currency",
+          "next_due_date",
+          "frequency",
+          "reminder_days_before",
+          "is_active",
+          "fixed_or_variable"
+        ],
+        "title": "RecurringSchedule"
+      },
+      "RecurringUpdate": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/RecurringFrequency"
+          },
+          "interval_count": {
+            "type": "integer",
+            "title": "Interval Count",
+            "default": 1
+          },
+          "next_due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Next Due Date"
+          },
+          "reminder_days_before": {
+            "type": "integer",
+            "title": "Reminder Days Before",
+            "default": 3
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "fixed_or_variable": {
+            "type": "string",
+            "title": "Fixed Or Variable",
+            "default": "fixed"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "name",
+          "amount",
+          "currency",
+          "amount_in_base_currency",
+          "frequency",
+          "next_due_date"
+        ],
+        "title": "RecurringUpdate"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "full_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 2,
+            "title": "Full Name"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "title": "Password"
+          },
+          "base_currency": {
+            "type": "string",
+            "title": "Base Currency",
+            "default": "USD"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "default": "UTC"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "full_name",
+          "password"
+        ],
+        "title": "RegisterRequest"
+      },
+      "RoleEnum": {
+        "type": "string",
+        "enum": [
+          "user",
+          "admin"
+        ],
+        "title": "RoleEnum"
+      },
+      "ScenarioInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": "Scenario"
+          },
+          "months": {
+            "type": "integer",
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Months",
+            "default": 12
+          },
+          "monthly_income_delta": {
+            "type": "number",
+            "title": "Monthly Income Delta",
+            "default": 0
+          },
+          "discretionary_spend_delta": {
+            "type": "number",
+            "title": "Discretionary Spend Delta",
+            "default": 0
+          },
+          "recurring_delta": {
+            "type": "number",
+            "title": "Recurring Delta",
+            "default": 0
+          },
+          "monthly_contribution_delta": {
+            "type": "number",
+            "title": "Monthly Contribution Delta",
+            "default": 0
+          },
+          "monthly_asset_growth_rate": {
+            "type": "number",
+            "title": "Monthly Asset Growth Rate",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "ScenarioInput"
+      },
+      "ScenarioMonth": {
+        "properties": {
+          "month_index": {
+            "type": "integer",
+            "title": "Month Index"
+          },
+          "balance": {
+            "type": "number",
+            "title": "Balance"
+          },
+          "net_worth": {
+            "type": "number",
+            "title": "Net Worth"
+          },
+          "goal_buffer": {
+            "type": "number",
+            "title": "Goal Buffer"
+          },
+          "risk_flag": {
+            "type": "boolean",
+            "title": "Risk Flag"
+          }
+        },
+        "type": "object",
+        "required": [
+          "month_index",
+          "balance",
+          "net_worth",
+          "goal_buffer",
+          "risk_flag"
+        ],
+        "title": "ScenarioMonth"
+      },
+      "ScenarioResult": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "months": {
+            "items": {
+              "$ref": "#/components/schemas/ScenarioMonth"
+            },
+            "type": "array",
+            "title": "Months"
+          },
+          "projected_goal_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Projected Goal Date"
+          },
+          "deficit_months": {
+            "type": "integer",
+            "title": "Deficit Months",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "months"
+        ],
+        "title": "ScenarioResult"
+      },
+      "SourceType": {
+        "type": "string",
+        "enum": [
+          "manual",
+          "imported",
+          "system"
+        ],
+        "title": "SourceType"
+      },
+      "SplitLine": {
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "title": "Category Id"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category_id",
+          "amount"
+        ],
+        "title": "SplitLine"
+      },
+      "TransactionCreate": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType"
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "posting_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Posting Date"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "source_type": {
+            "$ref": "#/components/schemas/SourceType",
+            "default": "manual"
+          },
+          "fx_rate": {
+            "type": "number",
+            "title": "Fx Rate",
+            "default": 1
+          },
+          "amount_in_base_currency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount In Base Currency"
+          },
+          "splits": {
+            "items": {
+              "$ref": "#/components/schemas/SplitLine"
+            },
+            "type": "array",
+            "title": "Splits"
+          },
+          "tag_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tag Ids"
+          },
+          "linked_asset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Asset Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "type",
+          "amount",
+          "currency",
+          "transaction_date"
+        ],
+        "title": "TransactionCreate"
+      },
+      "TransactionRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType"
+          },
+          "source_type": {
+            "$ref": "#/components/schemas/SourceType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatus"
+          },
+          "amount": {
+            "type": "number",
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "amount_in_base_currency": {
+            "type": "number",
+            "title": "Amount In Base Currency"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "posting_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Posting Date"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "category_id",
+          "type",
+          "source_type",
+          "status",
+          "amount",
+          "currency",
+          "amount_in_base_currency",
+          "transaction_date",
+          "posting_date"
+        ],
+        "title": "TransactionRead"
+      },
+      "TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "posted"
+        ],
+        "title": "TransactionStatus"
+      },
+      "TransactionType": {
+        "type": "string",
+        "enum": [
+          "income",
+          "expense",
+          "transfer_in",
+          "transfer_out",
+          "adjustment",
+          "interest",
+          "fee",
+          "tax",
+          "dividend",
+          "debt_payment",
+          "asset_buy",
+          "asset_sell"
+        ],
+        "title": "TransactionType"
+      },
+      "TransactionUpdate": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType"
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "merchant_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Merchant Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "posting_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Posting Date"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "source_type": {
+            "$ref": "#/components/schemas/SourceType",
+            "default": "manual"
+          },
+          "fx_rate": {
+            "type": "number",
+            "title": "Fx Rate",
+            "default": 1
+          },
+          "amount_in_base_currency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount In Base Currency"
+          },
+          "splits": {
+            "items": {
+              "$ref": "#/components/schemas/SplitLine"
+            },
+            "type": "array",
+            "title": "Splits"
+          },
+          "tag_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tag Ids"
+          },
+          "linked_asset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linked Asset Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "type",
+          "amount",
+          "currency",
+          "transaction_date"
+        ],
+        "title": "TransactionUpdate"
+      },
+      "TransferCreate": {
+        "properties": {
+          "from_account_id": {
+            "type": "string",
+            "title": "From Account Id"
+          },
+          "to_account_id": {
+            "type": "string",
+            "title": "To Account Id"
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Currency"
+          },
+          "fx_rate": {
+            "type": "number",
+            "title": "Fx Rate",
+            "default": 1
+          },
+          "amount_in_base_currency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount In Base Currency"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Transaction Date"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_account_id",
+          "to_account_id",
+          "amount",
+          "currency",
+          "transaction_date"
+        ],
+        "title": "TransferCreate"
+      },
+      "UserSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "role": {
+            "$ref": "#/components/schemas/RoleEnum"
+          },
+          "base_currency": {
+            "type": "string",
+            "title": "Base Currency"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "notification_preferences": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Notification Preferences"
+          },
+          "import_preferences": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Import Preferences"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "full_name",
+          "role",
+          "base_currency",
+          "timezone"
+        ],
+        "title": "UserSummary"
+      },
+      "UserUpdateRequest": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 2,
+            "title": "Full Name"
+          },
+          "base_currency": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Base Currency"
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 2,
+            "title": "Timezone"
+          },
+          "notification_preferences": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Notification Preferences"
+          },
+          "import_preferences": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Import Preferences"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "base_currency",
+          "timezone"
+        ],
+        "title": "UserUpdateRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
