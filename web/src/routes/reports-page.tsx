@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { DataTable, EmptyState, Mono, PageHeader, Pill, SelectMenu, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import { dateLabel, money, percent } from "../lib/format";
 import {
   useAccounts,
@@ -67,6 +68,9 @@ export function ReportsPage() {
   const currency = user.data?.base_currency ?? "RUB";
   const jobs = (imports.data ?? []) as ImportJobSummary[];
   const detailData = detail.data as ImportJobDetail | undefined;
+  const cashFlowSeries = cashFlow.data ?? [];
+  const netTrendStops = buildTrendGradientStopsByKey(cashFlowSeries, "net");
+  const netTone = getSeriesTrendToneByKey(cashFlowSeries, "net");
 
   const downloadCsv = async () => {
     const csv = await exportCsv.mutateAsync();
@@ -242,13 +246,26 @@ export function ReportsPage() {
         <Surface className="span-2">
           <div className="panel-header"><div><span className="kicker">Cash flow</span><h3>Ежедневная серия движения денег</h3></div></div>
           <ResponsiveContainer width="100%" height={260}>
-            <LineChart data={cashFlow.data ?? []}>
-              <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+            <AreaChart data={cashFlowSeries}>
+              <defs>
+                <linearGradient id="reports-net-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  {netTrendStops.map((stop, index) => (
+                    <stop key={`reports-net-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                  ))}
+                </linearGradient>
+                <linearGradient id="reports-net-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={getTrendFillColor(netTone)} stopOpacity={0.32} />
+                  <stop offset="95%" stopColor={getTrendFillColor(netTone)} stopOpacity={0.03} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="net" stroke="#0052ff" strokeWidth={2.5} dot={false} />
-            </LineChart>
+              <Area type="monotone" dataKey="net" stroke={getTrendStrokeColor(netTone)} strokeWidth={2.5} fill="url(#reports-net-fill)" />
+              <Line type="monotone" dataKey="net" stroke={getTrendStrokeColor(netTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="net" stroke="url(#reports-net-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+            </AreaChart>
           </ResponsiveContainer>
         </Surface>
 

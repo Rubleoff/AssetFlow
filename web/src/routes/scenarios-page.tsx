@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { EmptyState, PageHeader, Pill, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import { useScenarioMutation } from "../lib/query";
 
 const scenarioSchema = z.object({
@@ -20,6 +21,11 @@ const scenarioSchema = z.object({
 export function ScenariosPage() {
   const scenario = useScenarioMutation();
   const [result, setResult] = useState<null | Awaited<ReturnType<typeof scenario.mutateAsync>>>(null);
+  const scenarioMonths = result?.months ?? [];
+  const balanceTrendStops = buildTrendGradientStopsByKey(scenarioMonths, "balance");
+  const netWorthTrendStops = buildTrendGradientStopsByKey(scenarioMonths, "net_worth");
+  const balanceTone = getSeriesTrendToneByKey(scenarioMonths, "balance");
+  const netWorthTone = getSeriesTrendToneByKey(scenarioMonths, "net_worth");
   const form = useForm({
     resolver: zodResolver(scenarioSchema),
     defaultValues: {
@@ -55,14 +61,38 @@ export function ScenariosPage() {
             <>
               <div className="panel-header"><div><span className="kicker">Результат</span><h3>{result.name}</h3></div><Pill tone="blue">{result.deficit_months} мес. дефицита</Pill></div>
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={result.months}>
-                  <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+                <AreaChart data={scenarioMonths}>
+                  <defs>
+                    <linearGradient id="scenario-balance-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      {balanceTrendStops.map((stop, index) => (
+                        <stop key={`scenario-balance-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                      ))}
+                    </linearGradient>
+                    <linearGradient id="scenario-networth-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      {netWorthTrendStops.map((stop, index) => (
+                        <stop key={`scenario-networth-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                      ))}
+                    </linearGradient>
+                    <linearGradient id="scenario-balance-fill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={getTrendFillColor(balanceTone)} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={getTrendFillColor(balanceTone)} stopOpacity={0.03} />
+                    </linearGradient>
+                    <linearGradient id="scenario-networth-fill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={getTrendFillColor(netWorthTone)} stopOpacity={0.22} />
+                      <stop offset="95%" stopColor={getTrendFillColor(netWorthTone)} stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
                   <XAxis dataKey="month_index" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="balance" stroke="#0052ff" strokeWidth={3} dot={false} />
-                  <Line type="monotone" dataKey="net_worth" stroke="#0a0b0d" strokeWidth={2} dot={false} />
-                </LineChart>
+                  <Area type="monotone" dataKey="balance" stroke={getTrendStrokeColor(balanceTone)} strokeWidth={2.5} fill="url(#scenario-balance-fill)" />
+                  <Area type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#scenario-networth-fill)" />
+                  <Line type="monotone" dataKey="balance" stroke={getTrendStrokeColor(balanceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="balance" stroke="url(#scenario-balance-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+                  <Line type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="net_worth" stroke="url(#scenario-networth-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+                </AreaChart>
               </ResponsiveContainer>
             </>
           ) : (

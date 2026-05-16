@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import {
   ACCOUNT_PRESETS,
@@ -52,6 +52,7 @@ import {
   useUpdateMeMutation,
   useUpdateMerchantRuleMutation
 } from "../lib/query";
+import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import type { AccountSummary, AccountType, AssetChartResponse, AssetPosition, AssetType, DepositSummary, GoalForecast, RecurringSchedule, TransactionRead, TransactionType } from "../lib/types";
 import { dateLabel, compactNumber, money } from "../lib/format";
 import { ChoiceCards, DataTable, EmptyState, Mono, PageHeader, Pill, QuickPills, SelectMenu, StatCard, Surface } from "../components/ui";
@@ -467,6 +468,9 @@ export function AssetsPage() {
   const [assetDrawerTab, setAssetDrawerTab] = useState<"edit" | "delete">("edit");
   const [rangeDays, setRangeDays] = useState<number>(30);
   const chart = useAssetChart(activeAsset?.id ?? null, rangeDays);
+  const chartPoints = chart.data?.points ?? [];
+  const assetPriceTrendStops = buildTrendGradientStopsByKey(chartPoints, "price_in_base");
+  const assetPriceTone = getSeriesTrendToneByKey(chartPoints, "price_in_base");
   const totalValue = useMemo(
     () => (assets.data ?? []).reduce((sum, asset) => sum + Number(asset.current_value_in_base), 0),
     [assets.data]
@@ -650,13 +654,26 @@ export function AssetsPage() {
                 </div>
                 {chart.data?.points?.length ? (
                   <ResponsiveContainer width="100%" height={320}>
-                    <LineChart data={chart.data.points}>
-                      <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+                    <AreaChart data={chartPoints}>
+                      <defs>
+                        <linearGradient id="asset-price-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                          {assetPriceTrendStops.map((stop, index) => (
+                            <stop key={`asset-price-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                          ))}
+                        </linearGradient>
+                        <linearGradient id="asset-price-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.32} />
+                          <stop offset="95%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.03} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
                       <XAxis dataKey="date" tickFormatter={dateLabel} />
                       <YAxis />
                       <Tooltip />
-                      <Line type="monotone" dataKey="price_in_base" stroke="#0052ff" strokeWidth={3} dot={false} />
-                    </LineChart>
+                      <Area type="monotone" dataKey="price_in_base" stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={2.5} fill="url(#asset-price-fill)" />
+                      <Line type="monotone" dataKey="price_in_base" stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                      <Line type="monotone" dataKey="price_in_base" stroke="url(#asset-price-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+                    </AreaChart>
                   </ResponsiveContainer>
                 ) : (
                   <EmptyState

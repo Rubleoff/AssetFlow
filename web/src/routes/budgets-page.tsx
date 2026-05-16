@@ -1,6 +1,7 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { DataTable, Mono, PageHeader, Surface } from "../components/ui";
+import { getTrendStrokeColor, getUtilizationTone } from "../lib/chart-chroma";
 import { dateLabel, money } from "../lib/format";
 import { useBudgets, useCurrentUser } from "../lib/query";
 
@@ -8,6 +9,7 @@ export function BudgetsPage() {
   const budgets = useBudgets();
   const user = useCurrentUser();
   const currency = user.data?.base_currency ?? "RUB";
+  const budgetRows = budgets.data ?? [];
   const summary = (budgets.data ?? []).reduce(
     (acc, budget) => {
       acc.limit += Number(budget.amount);
@@ -49,14 +51,28 @@ export function BudgetsPage() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={budgets.data ?? []}>
-              <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+            <BarChart data={budgetRows}>
+              <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="amount" fill="#d9e6ff" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="spent" fill="#0052ff" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="forecast_spent" fill="#0a0b0d" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="amount" fill="var(--budget-limit)" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="spent" radius={[8, 8, 0, 0]}>
+                {budgetRows.map((budget) => (
+                  <Cell
+                    key={`${budget.id}-spent-cell`}
+                    fill={getTrendStrokeColor(getUtilizationTone(budget.spent, budget.amount, { warningAt: 0.75, criticalAt: 1 }))}
+                  />
+                ))}
+              </Bar>
+              <Bar dataKey="forecast_spent" radius={[8, 8, 0, 0]}>
+                {budgetRows.map((budget) => (
+                  <Cell
+                    key={`${budget.id}-forecast-cell`}
+                    fill={getTrendStrokeColor(getUtilizationTone(budget.forecast_spent, budget.amount, { warningAt: 0.85, criticalAt: 1 }))}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
           <DataTable

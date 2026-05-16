@@ -36,6 +36,10 @@ export function AppShell() {
   const userQuery = useCurrentUser();
   const logoutMutation = useLogoutMutation();
   const notificationsQuery = useNotifications();
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "light";
+    return window.localStorage.getItem("assetflow-theme") === "dark" ? "dark" : "light";
+  });
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
@@ -47,6 +51,11 @@ export function AppShell() {
   const user = userQuery.data;
   const visibleNavItems = NAV_ITEMS.filter((item) => !item.adminOnly || user?.role === "admin");
   const notificationItems = (notificationsQuery.data ?? []).slice(0, 5);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("assetflow-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const handlePointerDown = (event: MouseEvent) => {
@@ -92,6 +101,29 @@ export function AppShell() {
                 Добавить
               </button>
             ) : null}
+            <button
+              type="button"
+              className="icon-button"
+              aria-label={theme === "dark" ? "Включить светлую тему" : "Включить тёмную тему"}
+              title={theme === "dark" ? "Светлая тема" : "Тёмная тема"}
+              onClick={() => setTheme((value) => (value === "dark" ? "light" : "dark"))}
+            >
+              {theme === "dark" ? (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 4.25a.75.75 0 0 1 .75.75v1.2a.75.75 0 0 1-1.5 0V5a.75.75 0 0 1 .75-.75Zm0 3.5a4.25 4.25 0 1 0 0 8.5 4.25 4.25 0 0 0 0-8.5ZM4.25 12a.75.75 0 0 1 .75-.75h1.2a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Zm13.55-.75H19a.75.75 0 0 1 0 1.5h-1.2a.75.75 0 0 1 0-1.5Zm-10.23-4.74a.75.75 0 0 1 1.06 0l.85.85a.75.75 0 1 1-1.06 1.06l-.85-.85a.75.75 0 0 1 0-1.06Zm7.95 7.95a.75.75 0 0 1 1.06 0l.85.85a.75.75 0 1 1-1.06 1.06l-.85-.85a.75.75 0 0 1 0-1.06Zm1.91-7.95a.75.75 0 0 1 0 1.06l-.85.85a.75.75 0 0 1-1.06-1.06l.85-.85a.75.75 0 0 1 1.06 0ZM9.48 15.52a.75.75 0 0 1 0 1.06l-.85.85a.75.75 0 0 1-1.06-1.06l.85-.85a.75.75 0 0 1 1.06 0ZM12 17.05a.75.75 0 0 1 .75.75V19a.75.75 0 0 1-1.5 0v-1.2a.75.75 0 0 1 .75-.75Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M20.3 14.5a.75.75 0 0 1 .18.78 8.9 8.9 0 0 1-8.38 5.97 9.35 9.35 0 0 1-9.35-9.35 8.9 8.9 0 0 1 5.97-8.38.75.75 0 0 1 .95.95 7.55 7.55 0 0 0-.42 2.48 7.8 7.8 0 0 0 7.8 7.8c.85 0 1.68-.14 2.48-.42a.75.75 0 0 1 .77.17Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              )}
+            </button>
             <div className="notification-wrap" ref={notificationRef}>
               <button
                 type="button"

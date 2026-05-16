@@ -3,7 +3,6 @@ import {
   AreaChart,
   CartesianGrid,
   Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,6 +10,7 @@ import {
 } from "recharts";
 
 import { EmptyState, Mono, PageHeader, Pill, StatCard, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import { dateLabel, money, percent } from "../lib/format";
 import { useCashFlow, useCurrentUser, useOverview } from "../lib/query";
 
@@ -25,6 +25,13 @@ export function DashboardPage() {
   }
 
   const report = overview.data;
+  const cashFlowSeries = cashFlow.data ?? [];
+  const incomeStops = buildTrendGradientStopsByKey(cashFlowSeries, "income");
+  const expensesStops = buildTrendGradientStopsByKey(cashFlowSeries, "expenses", { direction: -1 });
+  const incomeTone = getSeriesTrendToneByKey(cashFlowSeries, "income");
+  const expensesTone = getSeriesTrendToneByKey(cashFlowSeries, "expenses", { direction: -1 });
+  const netWorthTone = getSeriesTrendToneByKey(report.net_worth_timeline, "net_worth");
+  const netWorthStops = buildTrendGradientStopsByKey(report.net_worth_timeline, "net_worth");
   const severityLabel: Record<string, string> = {
     critical: "Критично",
     warning: "Внимание",
@@ -86,19 +93,37 @@ export function DashboardPage() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={320}>
-            <AreaChart data={cashFlow.data ?? []}>
+            <AreaChart data={cashFlowSeries}>
               <defs>
-                <linearGradient id="income" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0052ff" stopOpacity={0.28} />
-                  <stop offset="95%" stopColor="#0052ff" stopOpacity={0.02} />
+                <linearGradient id="dashboard-income-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={getTrendFillColor(incomeTone)} stopOpacity={0.36} />
+                  <stop offset="95%" stopColor={getTrendFillColor(incomeTone)} stopOpacity={0.03} />
+                </linearGradient>
+                <linearGradient id="dashboard-income-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  {incomeStops.map((stop, index) => (
+                    <stop key={`income-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                  ))}
+                </linearGradient>
+                <linearGradient id="dashboard-expenses-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  {expensesStops.map((stop, index) => (
+                    <stop key={`expenses-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                  ))}
+                </linearGradient>
+                <linearGradient id="dashboard-expenses-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={getTrendFillColor(expensesTone)} stopOpacity={0.34} />
+                  <stop offset="95%" stopColor={getTrendFillColor(expensesTone)} stopOpacity={0.03} />
                 </linearGradient>
               </defs>
-              <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+              <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="income" stroke="#0052ff" fill="url(#income)" />
-              <Area type="monotone" dataKey="expenses" stroke="#0a0b0d" fill="transparent" />
+              <Area type="monotone" dataKey="income" stroke={getTrendStrokeColor(incomeTone)} strokeWidth={2.5} fill="url(#dashboard-income-fill)" />
+              <Area type="monotone" dataKey="expenses" stroke={getTrendStrokeColor(expensesTone)} strokeWidth={2.5} fill="url(#dashboard-expenses-fill)" />
+              <Line type="monotone" dataKey="income" stroke={getTrendStrokeColor(incomeTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="income" stroke="url(#dashboard-income-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+              <Line type="monotone" dataKey="expenses" stroke={getTrendStrokeColor(expensesTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="expenses" stroke="url(#dashboard-expenses-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
             </AreaChart>
           </ResponsiveContainer>
         </Surface>
@@ -131,13 +156,26 @@ export function DashboardPage() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={report.net_worth_timeline}>
-              <CartesianGrid stroke="#d7deeb" strokeDasharray="4 4" />
+            <AreaChart data={report.net_worth_timeline}>
+              <defs>
+                <linearGradient id="dashboard-networth-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  {netWorthStops.map((stop, index) => (
+                    <stop key={`networth-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                  ))}
+                </linearGradient>
+                <linearGradient id="dashboard-networth-fill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={getTrendFillColor(netWorthTone)} stopOpacity={0.32} />
+                  <stop offset="95%" stopColor={getTrendFillColor(netWorthTone)} stopOpacity={0.03} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="net_worth" stroke="#0052ff" strokeWidth={3} dot={false} />
-            </LineChart>
+              <Area type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#dashboard-networth-fill)" />
+              <Line type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="net_worth" stroke="url(#dashboard-networth-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+            </AreaChart>
           </ResponsiveContainer>
         </Surface>
 
