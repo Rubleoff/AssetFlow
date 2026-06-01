@@ -21,6 +21,22 @@ const NAV_ITEMS: Array<{ to: string; label: string; adminOnly?: boolean }> = [
   { to: "/admin", label: "Админ", adminOnly: true }
 ];
 
+const APP_FEATURES = [
+  "Счета и балансы",
+  "Операции и категории",
+  "Бюджеты и лимиты",
+  "Активы и их динамика",
+  "Вклады и накопления",
+  "Цели и взносы",
+  "Регулярные платежи",
+  "Отчёты и сводки",
+  "Сценарии прогноза",
+  "Импорт операций",
+  "Уведомления",
+  "Настройки профиля",
+  "Администрирование"
+];
+
 const CREATE_SECTIONS = {
   "/accounts": "account",
   "/operations": "operation",
@@ -91,6 +107,31 @@ export function AppShell() {
             );
           })}
         </nav>
+
+        <section className="sidebar-about" aria-label="О программе">
+          <div className="sidebar-about-card">
+            <span className="kicker">О программе</span>
+            <p>
+              AssetFlow предназначен для личного финансового учёта, контроля расходов и планирования капитала в одном
+              рабочем пространстве.
+            </p>
+            <ul className="sidebar-feature-list">
+              {APP_FEATURES.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="sidebar-about-card sidebar-about-ack">
+            <span className="kicker">Благодарность</span>
+            <p>
+              Выражаю благодарность своим родителям — Соломахину Ивану Анатольевичу и Гусевой Юлии Сергеевне — за их
+              вклад в моё образование и воспитание.
+            </p>
+          </div>
+
+          <p className="sidebar-copyright">© Соломахин Егор Иванович, 2026</p>
+        </section>
       </aside>
 
       <div className="shell-main">

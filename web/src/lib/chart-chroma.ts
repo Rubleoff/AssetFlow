@@ -27,6 +27,19 @@ const TREND_FILL_COLORS: Record<TrendTone, string> = {
   negative: "#ff6f7d"
 };
 
+const CHART_SERIES_LABELS: Record<string, string> = {
+  income: "Доходы",
+  expense: "Расходы",
+  expenses: "Расходы",
+  net: "Чистый поток",
+  net_worth: "Чистый капитал",
+  balance: "Баланс",
+  amount: "Лимит",
+  spent: "Потрачено",
+  forecast_spent: "Прогноз",
+  price_in_base: "Цена"
+};
+
 const DEFAULT_NEUTRAL_RATIO = 0.018;
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -66,6 +79,8 @@ const seriesEntries = <T>(data: T[], pickValue: (point: T) => unknown) =>
 export const getTrendStrokeColor = (tone: TrendTone) => TREND_STROKE_COLORS[tone];
 
 export const getTrendFillColor = (tone: TrendTone) => TREND_FILL_COLORS[tone];
+
+export const getChartSeriesLabel = (key: string) => CHART_SERIES_LABELS[key] ?? key;
 
 export const getSeriesTrendTone = <T>(data: T[], pickValue: (point: T) => unknown, options?: TrendOptions): TrendTone => {
   const entries = seriesEntries(data, pickValue);

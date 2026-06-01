@@ -4,8 +4,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import { EmptyState, PageHeader, Pill, Surface } from "../components/ui";
-import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
+import { ChartToneLegend, EmptyState, PageHeader, Pill, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getChartSeriesLabel, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
+import { compactNumber } from "../lib/format";
 import { useScenarioMutation } from "../lib/query";
 
 const scenarioSchema = z.object({
@@ -85,15 +86,16 @@ export function ScenariosPage() {
                   <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
                   <XAxis dataKey="month_index" />
                   <YAxis />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="balance" stroke={getTrendStrokeColor(balanceTone)} strokeWidth={2.5} fill="url(#scenario-balance-fill)" />
-                  <Area type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#scenario-networth-fill)" />
-                  <Line type="monotone" dataKey="balance" stroke={getTrendStrokeColor(balanceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                  <Tooltip formatter={(value, name) => [compactNumber(Number(value)), getChartSeriesLabel(String(name))]} />
+                  <Area type="monotone" dataKey="balance" name={getChartSeriesLabel("balance")} stroke={getTrendStrokeColor(balanceTone)} strokeWidth={2.5} fill="url(#scenario-balance-fill)" />
+                  <Area type="monotone" dataKey="net_worth" name={getChartSeriesLabel("net_worth")} stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#scenario-networth-fill)" />
+                  <Line type="monotone" dataKey="balance" name={getChartSeriesLabel("balance")} stroke={getTrendStrokeColor(balanceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
                   <Line type="monotone" dataKey="balance" stroke="url(#scenario-balance-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
-                  <Line type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="net_worth" name={getChartSeriesLabel("net_worth")} stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
                   <Line type="monotone" dataKey="net_worth" stroke="url(#scenario-networth-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
                 </AreaChart>
               </ResponsiveContainer>
+              <ChartToneLegend />
             </>
           ) : (
             <EmptyState title="Прогноз ещё не построен" body="Запустите сценарий, чтобы сравнить баланс и net worth по месяцам." />

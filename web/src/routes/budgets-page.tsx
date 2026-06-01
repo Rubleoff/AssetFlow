@@ -1,7 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import { DataTable, Mono, PageHeader, Surface } from "../components/ui";
-import { getTrendStrokeColor, getUtilizationTone } from "../lib/chart-chroma";
+import { ChartToneLegend, DataTable, Mono, PageHeader, Surface } from "../components/ui";
+import { getChartSeriesLabel, getTrendStrokeColor, getUtilizationTone } from "../lib/chart-chroma";
 import { dateLabel, money } from "../lib/format";
 import { useBudgets, useCurrentUser } from "../lib/query";
 
@@ -55,9 +55,9 @@ export function BudgetsPage() {
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="name" />
               <YAxis />
-              <Tooltip />
-              <Bar dataKey="amount" fill="var(--budget-limit)" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="spent" radius={[8, 8, 0, 0]}>
+              <Tooltip formatter={(value, name) => [money(Number(value), currency), getChartSeriesLabel(String(name))]} />
+              <Bar dataKey="amount" name={getChartSeriesLabel("amount")} fill="var(--budget-limit)" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="spent" name={getChartSeriesLabel("spent")} radius={[8, 8, 0, 0]}>
                 {budgetRows.map((budget) => (
                   <Cell
                     key={`${budget.id}-spent-cell`}
@@ -65,7 +65,7 @@ export function BudgetsPage() {
                   />
                 ))}
               </Bar>
-              <Bar dataKey="forecast_spent" radius={[8, 8, 0, 0]}>
+              <Bar dataKey="forecast_spent" name={getChartSeriesLabel("forecast_spent")} radius={[8, 8, 0, 0]}>
                 {budgetRows.map((budget) => (
                   <Cell
                     key={`${budget.id}-forecast-cell`}
@@ -75,6 +75,7 @@ export function BudgetsPage() {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          <ChartToneLegend />
           <DataTable
             columns={["Зона", "Лимит", "Потрачено", "Прогноз", "Остаток", "Период"]}
             rows={(budgets.data ?? []).map((budget) => [

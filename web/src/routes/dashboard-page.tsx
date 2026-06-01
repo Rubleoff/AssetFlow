@@ -9,8 +9,8 @@ import {
   YAxis
 } from "recharts";
 
-import { EmptyState, Mono, PageHeader, Pill, StatCard, Surface } from "../components/ui";
-import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
+import { ChartToneLegend, EmptyState, Mono, PageHeader, Pill, StatCard, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getChartSeriesLabel, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import { dateLabel, money, percent } from "../lib/format";
 import { useCashFlow, useCurrentUser, useOverview } from "../lib/query";
 
@@ -117,15 +117,18 @@ export function DashboardPage() {
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="income" stroke={getTrendStrokeColor(incomeTone)} strokeWidth={2.5} fill="url(#dashboard-income-fill)" />
-              <Area type="monotone" dataKey="expenses" stroke={getTrendStrokeColor(expensesTone)} strokeWidth={2.5} fill="url(#dashboard-expenses-fill)" />
-              <Line type="monotone" dataKey="income" stroke={getTrendStrokeColor(incomeTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Tooltip
+                formatter={(value, name) => [money(Number(value), currency), getChartSeriesLabel(String(name))]}
+              />
+              <Area type="monotone" dataKey="income" name={getChartSeriesLabel("income")} stroke={getTrendStrokeColor(incomeTone)} strokeWidth={2.5} fill="url(#dashboard-income-fill)" />
+              <Area type="monotone" dataKey="expenses" name={getChartSeriesLabel("expenses")} stroke={getTrendStrokeColor(expensesTone)} strokeWidth={2.5} fill="url(#dashboard-expenses-fill)" />
+              <Line type="monotone" dataKey="income" name={getChartSeriesLabel("income")} stroke={getTrendStrokeColor(incomeTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
               <Line type="monotone" dataKey="income" stroke="url(#dashboard-income-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
-              <Line type="monotone" dataKey="expenses" stroke={getTrendStrokeColor(expensesTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="expenses" name={getChartSeriesLabel("expenses")} stroke={getTrendStrokeColor(expensesTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
               <Line type="monotone" dataKey="expenses" stroke="url(#dashboard-expenses-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
             </AreaChart>
           </ResponsiveContainer>
+          <ChartToneLegend />
         </Surface>
 
         <Surface className="insight-panel">
@@ -171,12 +174,13 @@ export function DashboardPage() {
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#dashboard-networth-fill)" />
-              <Line type="monotone" dataKey="net_worth" stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Tooltip formatter={(value, name) => [money(Number(value), currency), getChartSeriesLabel(String(name))]} />
+              <Area type="monotone" dataKey="net_worth" name={getChartSeriesLabel("net_worth")} stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={2.5} fill="url(#dashboard-networth-fill)" />
+              <Line type="monotone" dataKey="net_worth" name={getChartSeriesLabel("net_worth")} stroke={getTrendStrokeColor(netWorthTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
               <Line type="monotone" dataKey="net_worth" stroke="url(#dashboard-networth-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
             </AreaChart>
           </ResponsiveContainer>
+          <ChartToneLegend />
         </Surface>
 
         <Surface>

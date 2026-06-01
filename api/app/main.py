@@ -9,6 +9,7 @@ from app.api.routes import api_router
 from app.core.config import get_settings
 from app.db.base import Base
 from app.db.session import engine
+from app.frontend import mount_frontend
 from app.schemas.common import HealthResponse
 
 settings = get_settings()
@@ -31,6 +32,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(api_router, prefix=settings.api_prefix)
+mount_frontend(app)
 
 
 @app.get("/health", response_model=HealthResponse)

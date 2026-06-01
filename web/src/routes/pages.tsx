@@ -52,10 +52,10 @@ import {
   useUpdateMeMutation,
   useUpdateMerchantRuleMutation
 } from "../lib/query";
-import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
+import { buildTrendGradientStopsByKey, getChartSeriesLabel, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import type { AccountSummary, AccountType, AssetChartResponse, AssetPosition, AssetType, DepositSummary, GoalForecast, RecurringSchedule, TransactionRead, TransactionType } from "../lib/types";
 import { dateLabel, compactNumber, money } from "../lib/format";
-import { ChoiceCards, DataTable, EmptyState, Mono, PageHeader, Pill, QuickPills, SelectMenu, StatCard, Surface } from "../components/ui";
+import { ChartToneLegend, ChoiceCards, DataTable, EmptyState, Mono, PageHeader, Pill, QuickPills, SelectMenu, StatCard, Surface } from "../components/ui";
 import { ManageDrawer } from "../components/ManageDrawer";
 import { GoalContributionDrawer } from "../components/GoalContributionDrawer";
 import { GoalCelebrationOverlay } from "../components/GoalCelebrationOverlay";
@@ -653,28 +653,31 @@ export function AssetsPage() {
                   </div>
                 </div>
                 {chart.data?.points?.length ? (
-                  <ResponsiveContainer width="100%" height={320}>
-                    <AreaChart data={chartPoints}>
-                      <defs>
-                        <linearGradient id="asset-price-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                          {assetPriceTrendStops.map((stop, index) => (
-                            <stop key={`asset-price-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
-                          ))}
-                        </linearGradient>
-                        <linearGradient id="asset-price-fill" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.32} />
-                          <stop offset="95%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.03} />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
-                      <XAxis dataKey="date" tickFormatter={dateLabel} />
-                      <YAxis />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="price_in_base" stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={2.5} fill="url(#asset-price-fill)" />
-                      <Line type="monotone" dataKey="price_in_base" stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
-                      <Line type="monotone" dataKey="price_in_base" stroke="url(#asset-price-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                  <>
+                    <ResponsiveContainer width="100%" height={320}>
+                      <AreaChart data={chartPoints}>
+                        <defs>
+                          <linearGradient id="asset-price-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                            {assetPriceTrendStops.map((stop, index) => (
+                              <stop key={`asset-price-stop-${index}`} offset={`${(stop.offset * 100).toFixed(3)}%`} stopColor={stop.color} />
+                            ))}
+                          </linearGradient>
+                          <linearGradient id="asset-price-fill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.32} />
+                            <stop offset="95%" stopColor={getTrendFillColor(assetPriceTone)} stopOpacity={0.03} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
+                        <XAxis dataKey="date" tickFormatter={dateLabel} />
+                        <YAxis />
+                        <Tooltip formatter={(value, name) => [money(Number(value), currency), getChartSeriesLabel(String(name))]} />
+                        <Area type="monotone" dataKey="price_in_base" name={getChartSeriesLabel("price_in_base")} stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={2.5} fill="url(#asset-price-fill)" />
+                        <Line type="monotone" dataKey="price_in_base" name={getChartSeriesLabel("price_in_base")} stroke={getTrendStrokeColor(assetPriceTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+                        <Line type="monotone" dataKey="price_in_base" stroke="url(#asset-price-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                    <ChartToneLegend />
+                  </>
                 ) : (
                   <EmptyState
                     title={chart.isLoading ? "Загружаем график" : "График пока пустой"}

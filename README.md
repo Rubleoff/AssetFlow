@@ -294,6 +294,29 @@ npm install
 VITE_API_BASE=http://localhost:8000/api npm run dev
 ```
 
+### Вариант 3: desktop-сборка в один exe
+
+Для автономного запуска интерфейс фронтенда встраивается в backend как статические файлы, а сам backend упаковывается через PyInstaller.
+
+Если PyInstaller ещё не установлен, поставьте desktop-extra backend-проекта:
+
+```bash
+cd api
+pip install -e ".[desktop]"
+```
+
+```bash
+python scripts/build_desktop.py
+```
+
+Скрипт:
+
+1. Собирает frontend в `web/dist`
+2. Передаёт `web/dist` в PyInstaller как `app/static`
+3. Собирает `AssetFlow.exe`
+
+При запуске desktop-сборки приложение само открывает браузер на локальном адресе после старта сервера.
+
 ## Переменные окружения
 
 Основные backend-переменные:

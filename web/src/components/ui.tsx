@@ -2,6 +2,8 @@ import { clsx } from "clsx";
 import { useMemo, useState } from "react";
 import type { PropsWithChildren, ReactNode } from "react";
 
+import { getTrendStrokeColor, type TrendTone } from "../lib/chart-chroma";
+
 export function PageHeader(props: { eyebrow?: string; title: string; description?: string; action?: ReactNode }) {
   return (
     <header className="page-header">
@@ -68,6 +70,25 @@ export function EmptyState(props: { title: string; body: string }) {
       <h3>{props.title}</h3>
       <p>{props.body}</p>
     </Surface>
+  );
+}
+
+const CHART_TONE_LEGEND: Array<{ tone: TrendTone; label: string }> = [
+  { tone: "positive", label: "Положительная динамика" },
+  { tone: "neutral", label: "Нейтральная / неопределённая" },
+  { tone: "negative", label: "Отрицательная динамика" }
+];
+
+export function ChartToneLegend() {
+  return (
+    <div className="chart-tone-legend" aria-label="Легенда цветов динамики">
+      {CHART_TONE_LEGEND.map((item) => (
+        <span key={item.tone} className="chart-tone-legend-item">
+          <span className="chart-tone-swatch" style={{ backgroundColor: getTrendStrokeColor(item.tone) }} aria-hidden="true" />
+          {item.label}
+        </span>
+      ))}
+    </div>
   );
 }
 

@@ -4,8 +4,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Area, AreaChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import { DataTable, EmptyState, Mono, PageHeader, Pill, SelectMenu, Surface } from "../components/ui";
-import { buildTrendGradientStopsByKey, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
+import { ChartToneLegend, DataTable, EmptyState, Mono, PageHeader, Pill, SelectMenu, Surface } from "../components/ui";
+import { buildTrendGradientStopsByKey, getChartSeriesLabel, getSeriesTrendToneByKey, getTrendFillColor, getTrendStrokeColor } from "../lib/chart-chroma";
 import { dateLabel, money, percent } from "../lib/format";
 import {
   useAccounts,
@@ -261,12 +261,13 @@ export function ReportsPage() {
               <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="4 4" />
               <XAxis dataKey="date" tickFormatter={dateLabel} />
               <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="net" stroke={getTrendStrokeColor(netTone)} strokeWidth={2.5} fill="url(#reports-net-fill)" />
-              <Line type="monotone" dataKey="net" stroke={getTrendStrokeColor(netTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
+              <Tooltip formatter={(value, name) => [money(Number(value), currency), getChartSeriesLabel(String(name))]} />
+              <Area type="monotone" dataKey="net" name={getChartSeriesLabel("net")} stroke={getTrendStrokeColor(netTone)} strokeWidth={2.5} fill="url(#reports-net-fill)" />
+              <Line type="monotone" dataKey="net" name={getChartSeriesLabel("net")} stroke={getTrendStrokeColor(netTone)} strokeWidth={4} dot={false} activeDot={{ r: 5 }} />
               <Line type="monotone" dataKey="net" stroke="url(#reports-net-stroke)" strokeWidth={3} dot={false} tooltipType="none" />
             </AreaChart>
           </ResponsiveContainer>
+          <ChartToneLegend />
         </Surface>
 
         <Surface>
