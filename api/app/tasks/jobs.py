@@ -8,16 +8,13 @@ from app.models import DailySnapshot, MonthlySnapshot, NetWorthSnapshot, Notific
 from app.models.enums import InsightSeverity, NotificationType
 from app.services.analytics import compute_overview, upsert_anomaly_notifications
 from app.services.ledger import generate_due_recurring_transactions
-from app.tasks.celery_app import celery_app
 
 
-@celery_app.task(name="app.tasks.jobs.generate_recurring_due")
 def generate_recurring_due() -> int:
     with SessionLocal() as db:
         return generate_due_recurring_transactions(db)
 
 
-@celery_app.task(name="app.tasks.jobs.process_outbox_events")
 def process_outbox_events() -> int:
     settings = get_settings()
     with SessionLocal() as db:
@@ -49,7 +46,6 @@ def process_outbox_events() -> int:
         return processed_count
 
 
-@celery_app.task(name="app.tasks.jobs.refresh_snapshots")
 def refresh_snapshots() -> int:
     with SessionLocal() as db:
         owner_ids = [row[0] for row in db.execute(select(OutboxEvent.owner_id).distinct()).all()]

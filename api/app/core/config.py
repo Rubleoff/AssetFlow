@@ -25,7 +25,6 @@ class Settings(BaseSettings):
     cookie_secure: bool = False
 
     database_url: str = "sqlite:///./assetflow.db"
-    redis_url: str = "redis://redis:6379/0"
     outbox_batch_size: int = 200
 
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:8080"])
